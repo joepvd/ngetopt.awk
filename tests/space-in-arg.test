@@ -1,0 +1,2 @@
+# testing space in arguments
+./testlib -a 'x x x ' -b'   [a]+'

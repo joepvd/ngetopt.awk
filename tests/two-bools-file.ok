@@ -1,0 +1,3 @@
+ngetopt: parseopt: result: option: bool1 = "yes"
+ngetopt: parseopt: result: file: 'file'
+ngetopt: parseopt: result: file: '-m'

@@ -1,0 +1,2 @@
+ngetopt: parseopt: result: option: possiblevals = "aaa"
+ngetopt: parseopt: result: file: <NONE>

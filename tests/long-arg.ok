@@ -1,0 +1,2 @@
+ngetopt: parseopt: result: option: argument1 = "abc"
+ngetopt: parseopt: result: file: <NONE>

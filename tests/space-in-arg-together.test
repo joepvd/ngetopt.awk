@@ -1,0 +1,2 @@
+# testing space in arguments
+./testlib -na'x x x '

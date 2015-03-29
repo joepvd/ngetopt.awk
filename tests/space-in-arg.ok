@@ -1,0 +1,3 @@
+ngetopt: parseopt: result: option: argument1 = "x x x "
+ngetopt: parseopt: result: option: argument2 = "   [a]+"
+ngetopt: parseopt: result: file: <NONE>

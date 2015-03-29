@@ -1,0 +1,4 @@
+# switch off processing after first file
+
+./testlib -n file -m
+

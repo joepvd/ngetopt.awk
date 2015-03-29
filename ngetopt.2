@@ -1,0 +1,172 @@
+.\" Man page generated from reStructuredText.
+.
+.TH NGETOPT.AWK 2 "" "0.1" "gawk library"
+.SH NAME
+ngetopt.awk \- AWK-Library for command line parsing
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.SH SYNOPSIS
+.sp
+A command line option parsing library for \fIgawk4\fP written in \fIgawk4\fP\&.  Abolish the need to write shell command line parsers for the small programs.  Typical use looks like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+#!/usr/bin/gawk \-E
+@include "ngetopt"
+BEGIN {
+    regopt(opstring)
+    parseopt()
+    usage()
+}
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+A line\-by\-line breakdown:
+.INDENT 0.0
+.TP
+.B #!/usr/bin/gawk \-E
+The \fI\-E\fP\-switch tells \fIgawk\fP to disable its own command line processing, so we have the line all to ourselves.
+.TP
+.B @include "ngetopt"
+Attempts to find \fIngetopt\fP or \fIngetopt.awk\fP the awk library path. See \fIFILES\fP for more information.
+.UNINDENT
+.sp
+After setup, the following user accessible functions are available:
+.INDENT 0.0
+.TP
+.B regopt()
+A convenience function to add a new entry to the globally available \fIopt\fP\-array.
+.TP
+.B parseopt()
+Parses the command line, making use of array \fIopt\fP\&. Will set configuration as needed.
+.TP
+.B usage()
+With the function \fIusage()\fP, a help message is generated from the defined options.
+.UNINDENT
+.SH DESCRIPTION
+.sp
+Central to \fIngetopt.awk\fP is the array \fIopt\fP\&.
+.sp
+The \fIopt\fP\-array needs to have all information of the options.  There is a numeric index for each option, for which a few properties shall be defined.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+opt[1]["short"]="F"
+opt[1]["long"]="field\-separator"
+opt[1]["flag"]="FS"
+opt[1]["description"]="Sets the field separator."
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Properties of the \fIopt\fP\-array that have special meaning are the following:
+.INDENT 0.0
+.TP
+.B short
+The short option. Will fail if it is more than one character.
+.TP
+.B long
+The long option. Will be parsed with \fB\-\-\fP before it.
+.UNINDENT
+.sp
+A registered option requires one short option, one long option, or a long option and a short option.
+.INDENT 0.0
+.TP
+.B has_arg
+\fIRequired\fP Defines the type of option. Required. Accepted values:
+\fB0\fP or \fBno\fP: Option does not require an argument
+\fB1\fP or \fByes\fP: Option requires an argument
+\fB2\fP or \fBmaybe\fP: Not implemented.
+Required.
+.TP
+.B flag
+The variable that will contain whatever has been specified on the command line. This is what your program will need. Required.
+.TP
+.B desc
+Description. Used when displaying the \fBusage()\fP\-function. Optional.
+.TP
+.B default
+The value \fBflag\fP will assume if specified.  As \fIoptional arguments\fP are as of yet not supported, use is limited to shortcuts.
+.TP
+.B vals
+This defines the permissable values of the option.  A \fB|\fP\-separated string serves as a definition of possibly values.
+.UNINDENT
+.SS regopt()
+.sp
+In stead of constructing the \fIopt\fP\-array manually, the utility function \fIregopt\fP can be used.  For each call, it adds a new option to the \fIopt\fP\-array.  An example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+regopt("short=F;long=field\-separator;has_arg=yes;desc=Define the Field Separator")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+\fIregopt\fP accepts one \fI;\fP\-separated string of \fI=\fP\-separated key\-value pairs.  Permissable keys are listed in the previous section.
+.SH FILES
+.sp
+\fIgawk\fP version 4 should be available.  The library has been tested with the current stable release, \fIgawk 4.1.1\fP\&.
+Put \fInregopt.awk\fP in \fI$AWKPATH\fP\&.  If you did not set \fI$AWKPATH\fP as an environment variable in your shell startup scripts, you can establish the location like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+%\ gawk \(aqBEGIN{print ENVIRON["AWKPATH"]}\(aq
+\&.:/usr/share/awk
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+On my system, \fIgawk\fP will first look in the current directory for a file to include, then in \fI/usr/share/awk\fP\&.
+.SH EXAMPLES
+.sp
+See the \fBtest/\fP\-directory for some examples.  Also see \fI\%table\fP for a real world application.
+.SH BUGS
+.sp
+Probably.  Send a pull request or open an issue on \fI\%https://github.com/joepvd/ngetopt.awk\fP
+.SH SEE ALSO
+.sp
+\fIgetopt(3)\fP, \fIgawk(1)\fP
+.SH AUTHOR
+joepvd
+.SH COPYRIGHT
+GNU
+.\" Generated by docutils manpage writer.
+.

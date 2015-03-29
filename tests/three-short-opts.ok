@@ -1,0 +1,4 @@
+ngetopt: parseopt: result: option: bool1 = "yes"
+ngetopt: parseopt: result: option: bool2 = "yes"
+ngetopt: parseopt: result: option: argument1 = "niceness"
+ngetopt: parseopt: result: file: <NONE>

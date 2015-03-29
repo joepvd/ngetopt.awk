@@ -1,0 +1,23 @@
+#!/usr/bin/gawk -E
+
+@include "../ngetopt.awk"
+
+BEGIN {
+    opt_debug="t"
+    regopt("short=a;long=argument_1;flag=argument1;has_arg=yes;desc=Arg required 1")
+    regopt("short=b;long=argument_2;flag=argument2;has_arg=yes;desc=Arg required 2")
+
+    regopt("short=n;long=bool_1;flag=bool1;has_arg=no;desc=Boolean option 1")
+    regopt("short=m;long=bool_2;flag=bool2;has_arg=no;desc=Boolean option 2")
+    regopt("short=o;long=default_var;flag=default_var;has_arg=no;val=niceness;desc=Boolean option 2")
+
+    regopt("short=p;long=possiblevals;flag=possiblevals;has_arg=yes;vals=aaa|bbb;desc=Only some values allowed")
+
+    # regopt("short=F;long=field-seperator;flag=FS;has_arg=yes;desc=Short option with argument")
+
+    parseopt(opt)
+}
+
+BEGINFILE {
+    nextfile
+}
