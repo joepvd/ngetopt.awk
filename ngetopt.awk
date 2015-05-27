@@ -2,28 +2,13 @@
 # needs to be started with the `-E` option, which disables all the
 # option processing of gawk itself. 
 #
+# See README.rst, or, on a properly configured system, `man 2 ngetopt'. 
+#
+# Released under GPL2, see LICENSE for details. 
+#
 # By joepvd, 2015
 # https://github.com/joepvd/ngetopt.awk
-# 
-# Usage: 
-# #!/usr/bin/gawk -E
-# @include "noptparse.awk"
-# BEGIN {
-#     ...
-# }
-#
-# DONE: -   Reimplement "Default".
-#           Use case: To allow for short cuts that use the same flag. From
-#           `table`: --rst should be equivalent to --style rst.
-# DONE: -   Implement "possible values"
-#           Keep the logic of checking the permissable values in one 
-#           centralized place. 
-# TODO: -   Consider implementing "leave as file"-flag
-#           Would that make sense? Or would it be recommendable to have
-#           the user fix it for concrete cases?  As the order is not 
-#           guaranteed... Maybe recommend `FILENAME == file` and 
-#           `FILENAME != file`-blocks. 
-# TODO: -   Optional arguments
+
 
 function regopt(str,        n, pairs, keyval, i, j, o, key, val, s, v, k, pv) {
     # Convenience function to register option parameters into the globally
