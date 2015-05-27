@@ -300,12 +300,18 @@ function getopt(option, nextopt,            o, flag, opt_flag, val, failstr, i, 
 
 function usage(         p,n) {
     # TODO: Some nice formatting with columns...
+    # TODO: Allow for short program description. 
     # TODO: Generate Usage according to GNU-specs. 
     split(ENVIRON["_"], p, "/")
     printf "\nUsage of %s:\n\n", p[length(p)] >"/dev/stderr"
     for (n in opt) {
-        printf("    -%s (--%s): %s\n",
+        if ("long" in opt[n]) {
+            printf("    -%s (--%s): # %s\n",
                opt[n]["short"], opt[n]["long"], opt[n]["desc"]) >"/dev/stderr"
+        } else {
+            printf("    -%s # %s\n",
+               opt[n]["short"], opt[n]["desc"]) >"/dev/stderr"
+        }
     }
 }
 
