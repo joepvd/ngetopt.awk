@@ -285,7 +285,6 @@ function getopt(option, nextopt,            o, flag, opt_flag, val, failstr, i, 
 
 function usage(         p,n) {
     # TODO: Some nice formatting with columns...
-    # TODO: Allow for short program description. 
     # TODO: Generate Usage according to GNU-specs. 
     split(ENVIRON["_"], p, "/")
     printf "\nUsage of %s:\n\n", p[length(p)] >"/dev/stderr"
