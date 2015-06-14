@@ -283,26 +283,31 @@ function getopt(option, nextopt,            o, flag, opt_flag, val, failstr, i, 
     return opt_flag
 }
 
-function usage(         p,n) {
+function usage(         helpstr,p,n,o,len) {
     # TODO: Some nice formatting with columns...
     # TODO: Generate Usage according to GNU-specs. 
-    split(ENVIRON["_"], p, "/")
-    printf "\nUsage of %s:\n\n", p[length(p)] >"/dev/stderr"
-    for (n in opt) {
-        if ("long" in opt[n]) {
-            printf("    -%s (--%s): # %s\n",
-               opt[n]["short"], opt[n]["long"], opt[n]["desc"]) >"/dev/stderr"
-        } else {
-            printf("    -%s # %s\n",
-               opt[n]["short"], opt[n]["desc"]) >"/dev/stderr"
-        }
+    for (o in opt) {
+        if ("long" in opt[o] && length(opt[o]["long"]) > len)
+            len = length(opt[o]["long"])
     }
+    len = len + 2
+    split(ENVIRON["_"], p, "/")
+    helpstr = sprintf("\nUsage of %s:\n\n", p[length(p)])
+    for (n in opt) {
+        helpstr = sprintf("%s    %-*s %s  # %s\n",
+                helpstr,
+                len - opt[n]["long"],
+                "long" in opt[n] ? "--"opt[n]["long"] : "",
+                "short" in opt[n] ? "-"opt[n]["short"] : "  ",
+                opt[n]["desc"])
+    }
+    return helpstr
 }
 
 END {
     # Need an END{}-block, as the exit in an included file does not get
     # propagated to the program, and the program will be waiting for input.
     if (_assert_exit)
-        exit 1
+        exit _assert_exit
 }
 
