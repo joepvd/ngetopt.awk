@@ -8,6 +8,11 @@ ngetopt.awk
 :author: joepvd
 :copyright: GNU
 
+
+.. image:: https://travis-ci.org/joepvd/ngetopt.awk.svg?branch=master
+    :target: https://travis-ci.org/joepvd/ngetopt.awk
+
+
 SYNOPSIS
 --------
 

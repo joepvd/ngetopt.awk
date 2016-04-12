@@ -22,10 +22,10 @@ echo "Testrun $(date +'%F %T') of ngetopt.awk."
 
 if [ -t 1 ]
 then
-    green=$'\e[32m'
-    red=$'\e[31m'
-    bold=$'\e[1m'
-    reset=$'\e[0m'
+    green=[32m
+    red=[31m
+    bold=[1m
+    reset=[0m
 fi
 
 # No handicaps here.
@@ -56,7 +56,7 @@ for testcase in *.test; do
     # Do the test.
     sh "${testname}.test" >"${testname}.out" 2>&1
 
-    if ! [[ -r "${testname}.ok" ]]
+    if ! [ -r "${testname}.ok" ]
     then
         fail "No output to compare to."
         continue
@@ -73,4 +73,4 @@ echo "Total tests: $(($failed+$passed))"
 echo "Failed: $failed"
 echo "Passed: $passed"
 
-(($failed==0)) && exit 0 || exit 1
+[ $failed -eq 0 ] && exit 0 || exit 1

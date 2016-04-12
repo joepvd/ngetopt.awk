@@ -1,0 +1,13 @@
+dist: trusty
+
+sudo: required
+
+install:
+    # Overriding the default `install` stage:
+    - awk --version
+
+script:
+    - ./tests/runtests.sh
+
+after_failure:
+  - for f in tests/*out; do head ${f%.out}.ok; head $f; done
